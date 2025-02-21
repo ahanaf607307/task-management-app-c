@@ -16,11 +16,11 @@ const ManageTask = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["taskData"],
+    queryKey: ["taskDataManage" , user?.email],
     enabled: !!user?.email && !!localStorage.getItem(`access-token`),
     queryFn: async () => {
       const { data } = await axiosSecure.get(
-        `/task-email?email=${user?.email}`
+        `/tasks?email=${user?.email}`
       );
 
       return data;
@@ -37,7 +37,7 @@ console.log('taskdata',taskData)
   // delete task
   const handleDelete = async (id) => {
     await axiosSecure
-      .delete(`/task-delete/${id}`)
+      .delete(`/tasks/${id}`)
       .then((res) => {
         refetch();
         const Toast = Swal.mixin({
@@ -79,9 +79,7 @@ console.log('taskdata',taskData)
             <Table.HeadCell>
               <button>Delete</button>
             </Table.HeadCell>
-            <Table.HeadCell>
-              <button>Reorder</button>
-            </Table.HeadCell>
+          
           </Table.Head>
           {isLoading ? (
             <Loading />
@@ -102,9 +100,7 @@ console.log('taskdata',taskData)
       <Table.Cell>
         <Button color='purple' className="cursor-pointer" onClick={() => handleDelete(task?._id)}>Delete</Button>
       </Table.Cell>
-      <Table.Cell>
-        <Button color='purple' className="cursor-pointer" >Reorder</Button>
-      </Table.Cell>
+    
     </Table.Row>
   ))
 ) : (

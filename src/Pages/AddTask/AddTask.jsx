@@ -31,7 +31,7 @@ const AddTask = () => {
       createDate,
     };
     console.log(taskInfo);
-    axiosSecure.post('/task' , taskInfo)
+    axiosSecure.post('/tasks' , taskInfo)
     .then(res=>{
         console.log('post req seccess in task',res.data)
         reset()

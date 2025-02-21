@@ -19,10 +19,10 @@ const UpdateTask = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["updateTask"],
+    queryKey: ["updateTask" , id],
     enabled: !!user?.email && !!localStorage.getItem(`access-token`),
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/task-id/${id}`);
+      const { data } = await axiosSecure.get(`/tasks/${id}`);
       return data;
     },
   });
@@ -59,7 +59,7 @@ const UpdateTask = () => {
     };
     console.log(taskInfo);
     axiosSecure
-      .patch(`/task-update/${taskData?._id}`, taskInfo)
+      .put(`/tasks/${taskData?._id}`, taskInfo)
       .then((res) => {
         console.log("post req seccess in task", res.data);
         reset();

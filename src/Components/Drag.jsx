@@ -69,10 +69,10 @@ const Drag = () => {
   const [taskData, setTaskData] = useState([]);
 
   const { isLoading, refetch } = useQuery({
-    queryKey: ["taskData"],
+    queryKey: ["taskDataDrag" , user?.email],
     enabled: !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/task-email?email=${user?.email}`);
+      const { data } = await axiosSecure.get(`/tasks?email=${user?.email}`);
       setTaskData(data);
       return data;
     },
@@ -80,7 +80,7 @@ const Drag = () => {
 
   const mutation = useMutation({
     mutationFn: async ({ id, newStatus }) => {
-      await axiosSecure.patch(`/task-status/${id}`, { status: newStatus })
+      await axiosSecure.patch(`/tasks/${id}`, { status: newStatus })
       .then(res => {
         if(res.data.modifiedCount === 1) {
             Swal.fire('Task Moved Done') 
