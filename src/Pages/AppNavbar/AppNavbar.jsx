@@ -3,6 +3,7 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import Login from "../../Firebase/Authentication/Login";
 import useAuth from "../../Firebase/Authentication/useAuth";
+import logo from '../../assets/logo.png';
 
 const AppNavbar = () => {
   const {user  , logoutUser} = useAuth()
@@ -15,26 +16,28 @@ const AppNavbar = () => {
    
 
    <div >
-     <Navbar  className="bg-[#8454c0] dark:bg-[#8454c0] fixed w-full z-30 top-0">
+     <Navbar  className="bg-[#8454c0] dark:bg-[#8454c0] fixed w-full z-30  top-0">
     <Navbar.Brand >
-     <Link className="text-white font-black text-xl dark:text-white"><button>Task Now</button></Link>
+     <Link to={`/`} className="text-white font-black text-xl dark:text-white cursor-pointer flex gap-x-2"><img src={logo} className="w-10" alt="" /><button className="cursor-pointer">Task Now</button></Link>
     </Navbar.Brand>
     <div className="flex md:order-2">
-    <div className="mr-3 hidden md:flex"> <DarkThemeToggle className="bg-white/90" /></div>
+    <div className="mr-3 hidden md:flex cursor-pointer"> <DarkThemeToggle className="bg-white/90 cursor-pointer" /></div>
       {
         user ?  <button onClick={handleLogoutUser} className="cursor-pointer border-2 border-white px-2 py-1 rounded-md text-white hover:scale-105 duration-150" >Logout</button> : <button className="cursor-pointer border-2 border-white px-2 py-1 rounded-md text-white hover:scale-105 duration-150" ><Login/></button>
       }
       
       <Navbar.Toggle />
     </div>
-    <Navbar.Collapse>
+    <Navbar.Collapse className="lg:flex justify-center items-center my-5">
       <NavLink className={({ isActive, isPending }) =>
-    isPending ? "text-white" : isActive ? "text-[#d8a1dd]" : "text-black"
+    isPending ? "text-white" : isActive ? "text-[#ffffff] border-2 border-t-2 border-l-0 border-r-0 border-b-[#ffffff]   rounded-md" : "text-white"
   } to='/'>Home</NavLink>
   
-      <NavLink className={({ isActive, isPending }) =>
-    isPending ? "text-white" : isActive ? "text-[#d8a1dd]" : "text-black"
-  } to='/manageTask'>Manage Task</NavLink>
+      {
+        user? <NavLink className={({ isActive, isPending }) =>
+          isPending ? "text-white" : isActive ? "text-[#ffffff] border-2 border-t-2 border-l-0 border-r-0 border-b-[#ffffff]   rounded-md " : "text-white"
+        } to='/manageTask'>Manage Task</NavLink> : ''
+      }
   <div className="mr-3 flex md:hidden"> <DarkThemeToggle /></div>
     </Navbar.Collapse>
   </Navbar>

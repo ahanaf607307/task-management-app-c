@@ -26,8 +26,11 @@ const ManageTask = () => {
       return data;
     },
   });
-
+console.log('taskdata',taskData)
   if (isLoading) {
+    return <Loading />;
+  }
+  if (loading) {
     return <Loading />;
   }
 
@@ -36,7 +39,6 @@ const ManageTask = () => {
     await axiosSecure
       .delete(`/task-delete/${id}`)
       .then((res) => {
-        console.log(res.data);
         refetch();
         const Toast = Swal.mixin({
           toast: true,
@@ -59,7 +61,8 @@ const ManageTask = () => {
       });
   };
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-800">
+    <div className="min-h-screen  bg-white dark:bg-gray-800">
+      <div className="max-w-7xl mx-auto">
       <h1 className="text-4xl font-bold py-8 text-blue-950 dark:text-white text-center">
         Manage Task
       </h1>
@@ -84,41 +87,33 @@ const ManageTask = () => {
             <Loading />
           ) : (
             <Table.Body className="divide-y">
-              {taskData?.map((task) => (
-                <Table.Row
-                  key={task}
-                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                >
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {task?.title}
-                  </Table.Cell>
-                  <Table.Cell> {(task?.category).slice(0, 30)}...</Table.Cell>
-                  <Table.Cell>
-                    {" "}
-                    {(task?.description).slice(0, 50)}...
-                  </Table.Cell>
-                  <Table.Cell> {task?.status}</Table.Cell>
-                  <Table.Cell>
-                    <Link className="" to={`/updateTask/${task?._id}`}>
-                      <Button className="cursor-pointer">Edit</Button>
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Button
-                      className="cursor-pointer"
-                      onClick={() => handleDelete(task?._id)}
-                    >
-                      Delete
-                    </Button>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Button>Reorder</Button>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
+             {Array.isArray(taskData) ? (
+  taskData.map((task) => (
+    <Table.Row key={task._id}>
+      <Table.Cell>{task?.title}</Table.Cell>
+      <Table.Cell>{task?.category?.slice(0, 30)}...</Table.Cell>
+      <Table.Cell>{task?.description?.slice(0, 50)}...</Table.Cell>
+      <Table.Cell>{task?.status}</Table.Cell>
+      <Table.Cell>
+        <Link to={`/updateTask/${task?._id}`}>
+          <Button color='purple' className="cursor-pointer">Edit</Button>
+        </Link>
+      </Table.Cell>
+      <Table.Cell>
+        <Button color='purple' className="cursor-pointer" onClick={() => handleDelete(task?._id)}>Delete</Button>
+      </Table.Cell>
+      <Table.Cell>
+        <Button color='purple' className="cursor-pointer" >Reorder</Button>
+      </Table.Cell>
+    </Table.Row>
+  ))
+) : (
+  <p>Error: Task data is not an array</p>
+)}
             </Table.Body>
           )}
         </Table>
+      </div>
       </div>
     </div>
   );

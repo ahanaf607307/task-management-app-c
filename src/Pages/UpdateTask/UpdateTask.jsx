@@ -11,7 +11,7 @@ const UpdateTask = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // get own task ----
   const {
@@ -19,7 +19,7 @@ const UpdateTask = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["taskData"],
+    queryKey: ["updateTask"],
     enabled: !!user?.email && !!localStorage.getItem(`access-token`),
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/task-id/${id}`);
@@ -27,9 +27,8 @@ const UpdateTask = () => {
     },
   });
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  console.log(taskData);
+
   // get own task end----
 
   const {
@@ -64,9 +63,8 @@ const UpdateTask = () => {
       .then((res) => {
         console.log("post req seccess in task", res.data);
         reset();
-        refetch()
+        refetch();
         if (res.data.modifiedCount) {
-            
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -82,7 +80,7 @@ const UpdateTask = () => {
             icon: "success",
             title: "Task Update Successfully",
           });
-          navigate('/manageTask')
+          navigate("/manageTask");
         }
       })
       .catch((error) => {
@@ -100,9 +98,15 @@ const UpdateTask = () => {
     }
   }, [taskData, setValue, user?.email]);
 
+  
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className=" dark:bg-gray-800 px-5 py-[90px] min-h-screen">
-      <form
+     {
+        isLoading ? <Loading/> :  <form
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-[600px] mx-auto bg-[#ffffff] dark:bg-gray-700 px-[30px] py-4 border-2 border-gray-300 shadow-xl dark:shadow-none shadow-gray-200 hover:scale-105 duration-300 rounded-[9px] space-y-3 grid grid-cols-2"
       >
@@ -152,16 +156,16 @@ const UpdateTask = () => {
         </div>
         <div className="col-span-full">
           <div className="justify-end">
-          
-           <button
+            <button
               type="submit"
               className="bg-[#7d35b8] text-[#ffffff] text-[16px] cursor-pointer rounded-[6px] px-[16px] py-[12px] w-[150px] text-center"
             >
-              Update 
+              Update
             </button>
           </div>
         </div>
       </form>
+     }
     </div>
   );
 };

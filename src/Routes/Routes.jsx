@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import PrivateRoute from "../Firebase/PrivateRoute/PrivateRoute";
 import Home from "../Home/Home";
 import MainLayout from "../MainLayout/MainLayout";
 import AddTask from "../Pages/AddTask/AddTask";
@@ -14,19 +15,19 @@ const routes = createBrowserRouter([
     children : [
         {
             path : '/' , 
-            element : <Home/>
+            element : <><Home/></>
         },
         {
             path : '/addTask' , 
-            element : <AddTask/>
+            element : <PrivateRoute><AddTask/></PrivateRoute>
         },
         {
             path : '/manageTask' , 
-            element : <ManageTask/>
+            element : <PrivateRoute><ManageTask/></PrivateRoute>
         },
         {
             path : '/updateTask/:id' , 
-            element : <UpdateTask/>
+            element : <PrivateRoute><UpdateTask/></PrivateRoute>
         },
 
     ]

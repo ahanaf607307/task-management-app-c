@@ -4,9 +4,9 @@ import AppNavbar from "../Pages/AppNavbar/AppNavbar";
 
 const MainLayout = () => {
   return (
-    <div>
+    <div className="">
       <AppNavbar />
-    <div className="pt-14">
+    <div className="pt-20 ">
     <Outlet />
     </div>
     </div>
