@@ -34,12 +34,13 @@ const AddTask = () => {
     axiosSecure.post('/task' , taskInfo)
     .then(res=>{
         console.log('post req seccess in task',res.data)
+        reset()
         if(res.data.insertedId) {
             const Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
-                timer: 3000,
+                timer: 1000,
                 timerProgressBar: true,
                 didOpen: (toast) => {
                   toast.onmouseenter = Swal.stopTimer;
