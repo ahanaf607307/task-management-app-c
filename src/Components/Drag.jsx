@@ -95,7 +95,7 @@ const Drag = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="pt-10 text-black max-w-7xl mx-auto dark:text-white">
+      <div className="pt-10 text-black max-w-7xl mx-auto dark:text-purple-600">
         <div className="pb-8">
           <Link to="/addTask">
             <Button className="cursor-pointer" color="purple">
@@ -107,9 +107,10 @@ const Drag = () => {
           <TaskColumn
             status="todo"
             tasks={taskData.filter((task) => task.status === "todo")}
-            className='text-black dark:text-white bg-white dark:bg-gray-800'
+            className='text-black dark:text-white bg-white dark:bg-gray-800 '
             onDrop={handleDrop}
           />
+
           <TaskColumn
             status="In Progress"
             tasks={taskData.filter((task) => task.status === "In Progress")}
