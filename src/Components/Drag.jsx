@@ -26,13 +26,13 @@ const Task = ({ task, onDrop }) => {
   return (
     <div
       ref={drag}
-      className={`p-4 my-5 border rounded-lg cursor-grab ${
+      className={`p-4 md:-8 border border-gray-200 my-5  rounded-lg cursor-grab bg-white dark:bg-purple-300  shadow-lg ${
         isDragging ? "opacity-50" : "opacity-100"
       }`}
     >
-      <h3 className="font-semibold text-purple-600 dark:text-purple-600" >{(task.createDate).slice(0,10)}</h3>
+      <h3 className="font-semibold text-purple-600 dark:text-purple-900" >{(task.createDate).slice(0,10)}</h3>
       <h3 className="font-semibold text-2xl">{task.title}</h3>
-      <p className="text-sm text-gray-500 pt-3">{task.description}</p>
+      <p className="text-sm font-semibold text-gray-700 pt-3">{task.description}</p>
     </div>
   );
 };
@@ -50,7 +50,7 @@ const TaskColumn = ({ status, tasks, onDrop }) => {
   return (
     <div
       ref={drop}
-      className={`border p-4 min-h-[200px] rounded-md ${
+      className={`border p-4 min-h-[200px] rounded-md  ${
         isOver ? "bg-purple-100" : "bg-white"
       }`}
     >
@@ -103,7 +103,7 @@ const Drag = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="pt-10 text-black max-w-7xl mx-auto dark:text-purple-600">
+      <div className="pt-10 text-black  max-w-7xl mx-auto dark:text-purple-600">
         <div className="pb-8">
           <Link to="/addTask">
             <Button className="cursor-pointer" color="purple">
@@ -111,24 +111,24 @@ const Drag = () => {
             </Button>
           </Link>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 ">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10  ">
           <TaskColumn
             status="todo"
             tasks={taskData.filter((task) => task.status === "todo")}
-            className='text-black dark:text-white bg-white dark:bg-gray-800 '
+            className='text-black dark:text-white bg-white dark:bg-gray-500 '
             onDrop={handleDrop}
           />
 
           <TaskColumn
             status="In Progress"
             tasks={taskData.filter((task) => task.status === "In Progress")}
-              className='text-black dark:text-white bg-white dark:bg-gray-800'
+              className='text-black dark:text-white bg-white dark:bg-gray-500'
             onDrop={handleDrop}
           />
           <TaskColumn
             status="Done"
             tasks={taskData.filter((task) => task.status === "Done")}
-              className='text-black dark:text-white bg-white dark:bg-gray-800'
+              className='text-black dark:text-white bg-white dark:bg-gray-500'
             onDrop={handleDrop}
           />
         </div>

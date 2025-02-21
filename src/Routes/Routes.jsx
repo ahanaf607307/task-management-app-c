@@ -1,9 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
+import LoginPage from "../Firebase/Authentication/LoginPage";
 import PrivateRoute from "../Firebase/PrivateRoute/PrivateRoute";
 import Home from "../Home/Home";
 import MainLayout from "../MainLayout/MainLayout";
 import AddTask from "../Pages/AddTask/AddTask";
 import ManageTask from "../Pages/ManageTask/ManageTask";
+import Task from "../Pages/Task/Task";
 import UpdateTask from "../Pages/UpdateTask/UpdateTask";
 
 
@@ -15,7 +17,11 @@ const routes = createBrowserRouter([
     children : [
         {
             path : '/' , 
-            element : <PrivateRoute><Home/></PrivateRoute>
+            element : <Home/>
+        },
+        {
+            path : '/task' , 
+            element : <PrivateRoute><Task/></PrivateRoute>
         },
         {
             path : '/addTask' , 
@@ -32,6 +38,10 @@ const routes = createBrowserRouter([
 
     ]
 },
+{
+    path:'/loginPage',
+    element : <LoginPage/>
+}
 ])
 
 export default routes
