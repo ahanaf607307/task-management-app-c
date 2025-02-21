@@ -3,6 +3,7 @@ import Home from "../Home/Home";
 import MainLayout from "../MainLayout/MainLayout";
 import AddTask from "../Pages/AddTask/AddTask";
 import ManageTask from "../Pages/ManageTask/ManageTask";
+import UpdateTask from "../Pages/UpdateTask/UpdateTask";
 
 
 
@@ -22,6 +23,10 @@ const routes = createBrowserRouter([
         {
             path : '/manageTask' , 
             element : <ManageTask/>
+        },
+        {
+            path : '/updateTask/:id' , 
+            element : <UpdateTask/>
         },
 
     ]

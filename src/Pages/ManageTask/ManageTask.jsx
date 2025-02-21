@@ -1,16 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, Table } from "flowbite-react";
 import React from "react";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import Loading from "../../Components/Loading/Loading";
 import useAuth from "../../Firebase/Authentication/useAuth";
 import useAxiosSecure from "../../Hook/AxiosPublic/AxiosSecure/AxiosSecure";
 
 const ManageTask = () => {
   const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
   const {
     data: taskData = [],
-    isPending,
+    isLoading,
     refetch,
   } = useQuery({
     queryKey: ["taskData"],
@@ -19,22 +22,37 @@ const ManageTask = () => {
       const { data } = await axiosSecure.get(
         `/task-email?email=${user?.email}`
       );
+
       return data;
     },
   });
 
-  if (isPending) {
+  if (isLoading) {
     return <Loading />;
   }
 
   // delete task
   const handleDelete = async (id) => {
-        await axiosSecure
+    await axiosSecure
       .delete(`/task-delete/${id}`)
       .then((res) => {
         console.log(res.data);
-        refetch()
-        alert("delete item");
+        refetch();
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Task Deleted Successfully",
+        });
       })
       .catch((error) => {
         console.log("Error caught from delete task ", error);
@@ -62,35 +80,44 @@ const ManageTask = () => {
               <button>Reorder</button>
             </Table.HeadCell>
           </Table.Head>
-          <Table.Body className="divide-y">
-            {taskData?.map((task) => (
-              <Table.Row
-                key={task}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {task?.title}
-                </Table.Cell>
-                <Table.Cell> {(task?.category).slice(0, 30)}...</Table.Cell>
-                <Table.Cell> {(task?.description).slice(0, 50)}...</Table.Cell>
-                <Table.Cell> {task?.status}</Table.Cell>
-                <Table.Cell>
-                  <Button>Edit</Button>
-                </Table.Cell>
-                <Table.Cell>
-                  <Button
-                    className="cursor-pointer"
-                    onClick={() => handleDelete(task?._id)}
-                  >
-                    Delete
-                  </Button>
-                </Table.Cell>
-                <Table.Cell>
-                  <Button>Reorder</Button>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Table.Body className="divide-y">
+              {taskData?.map((task) => (
+                <Table.Row
+                  key={task}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {task?.title}
+                  </Table.Cell>
+                  <Table.Cell> {(task?.category).slice(0, 30)}...</Table.Cell>
+                  <Table.Cell>
+                    {" "}
+                    {(task?.description).slice(0, 50)}...
+                  </Table.Cell>
+                  <Table.Cell> {task?.status}</Table.Cell>
+                  <Table.Cell>
+                    <Link className="" to={`/updateTask/${task?._id}`}>
+                      <Button className="cursor-pointer">Edit</Button>
+                    </Link>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      className="cursor-pointer"
+                      onClick={() => handleDelete(task?._id)}
+                    >
+                      Delete
+                    </Button>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Button>Reorder</Button>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          )}
         </Table>
       </div>
     </div>
