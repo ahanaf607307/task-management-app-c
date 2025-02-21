@@ -1,8 +1,8 @@
 import {
-    GoogleAuthProvider,
-    onAuthStateChanged,
-    signInWithPopup,
-    signOut,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import useAxiosPublic from "../../Hook/AxiosPublic/AxiosPublic";
@@ -40,6 +40,7 @@ const AuthProvider = ({ children }) => {
             console.log('live',res.data);
             setUser(currentUser);
             setLoading(false);
+            console.log("current user -------->", currentUser);
           } 
         });
   
@@ -47,7 +48,7 @@ const AuthProvider = ({ children }) => {
       else {
         localStorage.removeItem("access-token");
         setLoading(false);
-        console.log("current user", currentUser);
+        console.log("current user -------->", currentUser);
       }
     });
     return () => {

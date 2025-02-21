@@ -15,7 +15,7 @@ const AppNavbar = () => {
    
 
    <div >
-     <Navbar  className="bg-[#8454c0] dark:bg-[#8454c0]">
+     <Navbar  className="bg-[#8454c0] dark:bg-[#8454c0] fixed w-full z-30 top-0">
     <Navbar.Brand >
      <Link className="text-white font-black text-xl dark:text-white"><button>Task Now</button></Link>
     </Navbar.Brand>
@@ -31,9 +31,10 @@ const AppNavbar = () => {
       <NavLink className={({ isActive, isPending }) =>
     isPending ? "text-white" : isActive ? "text-[#d8a1dd]" : "text-black"
   } to='/'>Home</NavLink>
+  
       <NavLink className={({ isActive, isPending }) =>
     isPending ? "text-white" : isActive ? "text-[#d8a1dd]" : "text-black"
-  } to='/addTask'>Add Task</NavLink>
+  } to='/manageTask'>Manage Task</NavLink>
   <div className="mr-3 flex md:hidden"> <DarkThemeToggle /></div>
     </Navbar.Collapse>
   </Navbar>

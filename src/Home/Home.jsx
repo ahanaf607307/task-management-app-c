@@ -1,3 +1,4 @@
+import { Button } from "flowbite-react";
 import React from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../Firebase/Authentication/useAuth";
@@ -6,12 +7,14 @@ const Home = () => {
   const { user } = useAuth();
 
   return (
-    <div className="pt-24 bg-white dark:bg-gray-800 min-h-screen">
+    <div className=" pt-5 bg-white dark:bg-gray-800 min-h-screen">
       <div>
        
       </div>
       {user ? (
-        <h1 className="text-5xl text-black ">User Login Now</h1>
+        <div>
+         <Link to='/addTask' > <Button className="cursor-pointer">Add Task</Button></Link>
+        </div>
       ) : (
         <Link>
           <button className="btn text-black">
