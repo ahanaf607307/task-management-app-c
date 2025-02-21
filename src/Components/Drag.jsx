@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import useAuth from "../Firebase/Authentication/useAuth";
 import useAxiosSecure from "../Hook/AxiosPublic/AxiosSecure/AxiosSecure";
 import Loading from "./Loading/Loading";
@@ -25,12 +26,13 @@ const Task = ({ task, onDrop }) => {
   return (
     <div
       ref={drag}
-      className={`p-4 border rounded-lg cursor-grab ${
+      className={`p-4 my-5 border rounded-lg cursor-grab ${
         isDragging ? "opacity-50" : "opacity-100"
       }`}
     >
-      <h3 className="font-semibold">{task.title}</h3>
-      <p className="text-sm text-gray-500">{task.description}</p>
+      <h3 className="font-semibold text-purple-600 dark:text-purple-600" >{(task.createDate).slice(0,10)}</h3>
+      <h3 className="font-semibold text-2xl">{task.title}</h3>
+      <p className="text-sm text-gray-500 pt-3">{task.description}</p>
     </div>
   );
 };
@@ -78,7 +80,13 @@ const Drag = () => {
 
   const mutation = useMutation({
     mutationFn: async ({ id, newStatus }) => {
-      await axiosSecure.patch(`/task-status/${id}`, { status: newStatus });
+      await axiosSecure.patch(`/task-status/${id}`, { status: newStatus })
+      .then(res => {
+        if(res.data.modifiedCount === 1) {
+            Swal.fire('Task Moved Done') 
+        }
+      })
+     
     },
     onSuccess: () => {
       refetch();
